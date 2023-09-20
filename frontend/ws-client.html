@@ -1,0 +1,23 @@
+<html>
+<script language="javascript">
+    const connection = new WebSocket('ws://localhost:8080/ocorrencias');
+    connection.onopen = function () {
+        console.log('Connection open!');
+        connection.send('Hey server, whats up?');
+    }
+    connection.onclose = function () {
+        console.log('Connection closed');
+    }
+    connection.onmessage = function (e) {
+        let server_message = e.data;
+        console.log(server_message);
+        document.getElementById("result").innerHTML = JSON.parse(server_message) + "<br>";
+    }
+</script>
+
+<body>
+    <div id="result">
+    </div>
+</body>
+
+</html>
