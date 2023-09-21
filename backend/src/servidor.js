@@ -12,7 +12,9 @@ sumario = {
 
 function atualizar_clientes() {
     for (const socket in sockets) {
-        sockets[socket].send(JSON.stringify(sumario));
+        const valueToSend = {...sumario, lastUpdate: new Date()}
+
+        sockets[socket].send(JSON.stringify(valueToSend));
     }
 }
 

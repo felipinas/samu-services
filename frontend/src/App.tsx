@@ -73,8 +73,13 @@ const dataMock = [
   },
 ];
 
+interface DataI {
+  lastUpdate: string,
+  'ocrr por cidade': { [x: string]: number }
+}
+
 function App() {
-  const [data, setData] = useState<string>('');
+  const [data, setData] = useState<DataI | undefined>(undefined);
 
   useEffect(() => {
     const connection = new WebSocket('ws://localhost:8080/ocorrencias');
@@ -88,7 +93,7 @@ function App() {
     connection.onmessage = (e) => {
       const server_message = e.data;
 
-      console.log(server_message);
+      console.log(JSON.parse(server_message));
 
       setData(JSON.parse(server_message))
     }
@@ -110,7 +115,14 @@ function App() {
   const formattedDate = new Intl.DateTimeFormat('pt-BR', {
     dateStyle: 'long',
     timeStyle: 'medium'
-  }).format(new Date())
+  }).format(data ? new Date(data.lastUpdate) : undefined)
+
+  const perCity = Object.entries(data?.["ocrr por cidade"] || {}).map(([city, amount]) => {
+    return {
+      name: city,
+      value: amount,
+    }
+  })
 
   return (
     <>
@@ -127,7 +139,6 @@ function App() {
               <XAxis dataKey="name" />
               <YAxis />
               <Tooltip />
-              <Legend />
               <Line type="monotone" dataKey="pv" stroke="#C20D2F" activeDot={{ r: 8 }} />
             </LineChart>
           </ResponsiveContainer>
@@ -135,13 +146,12 @@ function App() {
 
         <ChartBox title="Número de atendimento x Cidade">
           <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={dataMock} {...commonChartProps}>
+            <BarChart data={perCity} {...commonChartProps}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="name" />
               <YAxis />
               <Tooltip />
-              <Legend />
-              <Bar dataKey="pv" fill="#C20D2F" />
+              <Bar dataKey="value" fill="#C20D2F" />
             </BarChart>
           </ResponsiveContainer>
         </ChartBox>
