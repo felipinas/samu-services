@@ -2,7 +2,7 @@
 
 This is the final project of the Introduction to Distributed Systems course.
 
-Our challenge is to create an end-to-end structure to illustrate a a system based on data streaming.
+Our challenge is to create an end-to-end structure to illustrate a system based on data streaming.
 
 We decide to analyze the SAMU services in 2023. SAMU is Mobile Emergency Medical Services.
 
