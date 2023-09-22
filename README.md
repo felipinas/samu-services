@@ -1,4 +1,4 @@
-# Samu services
+# SAMU services
 
 This is the final project of the Introduction to Distributed Systems course.
 
