@@ -64,6 +64,18 @@ function App() {
     }
   })
 
+  const legendFormatter = (value: 'male' | 'female' | 'notDefined') => {
+    const values = {
+      male: 'Masculino',
+      female: 'Feminino',
+      notDefined: 'Não identificado'
+    };
+
+    const formattedValue = values[value];
+
+    return <span>{formattedValue}</span>
+  }
+
   return (
     <Fragment>
       <GlobalStyles />
@@ -97,7 +109,7 @@ function App() {
 
               <Tooltip />
 
-              <Bar dataKey="value" fill="#C20D2F" />
+              <Bar name="Atendimentos" dataKey="value" fill="#C20D2F" />
             </BarChart>
           </ResponsiveContainer>
         </ChartBox>
@@ -110,14 +122,14 @@ function App() {
                 dataKey="value"
                 nameKey="name"
                 fill="#8884d8"
+                label
               >
                 {perGender.map((_, index) => {
                   return  <Cell key={`cell-${index}`} fill={PIE_COLORS[index % PIE_COLORS.length]} />
                 })}
               </Pie>
 
-              <Legend />
-              <Tooltip />
+              <Legend formatter={legendFormatter} />
             </PieChart>
           </ResponsiveContainer>
         </ChartBox>
