@@ -11,7 +11,7 @@ We decide to analyze the SAMU services in 2023. SAMU is Mobile Emergency Medical
 ___
 A fonte de dados em [fonte.js](https://github.com/felipinas/samu-services/blob/main/backend/fonte.js). deve apontar para um arquivo contendo os dados de [Dados Recife - SAMU](http://dados.recife.pe.gov.br/dataset/servico-de-atendimento-movel-de-urgencia-samu-2023/resource/548a12cf-a382-409c-bf68-21db251199b4) -->
 
-# Steps to run this code
+# Steps to run
 
 * Download [RabbitMQ](https://www.rabbitmq.com/download.html) and [Node.js](https://nodejs.org/en/download).
 
