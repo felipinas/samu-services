@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-import styled from "styled-components"
+import { useEffect, useState, Fragment } from "react";
 import {
   /* LineChart,
   Line, */
@@ -22,17 +21,7 @@ import { Header } from "./components/Header/Header"
 import { GlobalStyles } from "./styles/global"
 
 import { formatDate, PIE_COLORS, COMMON_CHART_PROPS } from "./utils";
-
-const Main = styled.main`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-
-  margin-top: -60px;
-  padding-bottom: 60px;
-`
+import { Main } from "./styles/utils";
 
 interface DataI {
   lastUpdate: string,
@@ -50,23 +39,13 @@ function App() {
   useEffect(() => {
     const connection = new WebSocket('ws://localhost:8080/ocorrencias');
 
-    connection.onopen = () => {
-      console.log('Connection open!');
-
-      connection.send('Hey server, whats up?');
-    }
-
     connection.onmessage = (e) => {
-      const server_message = e.data;
+      const serverMessage = e.data;
 
-      console.log(JSON.parse(server_message));
-
-      setData(JSON.parse(server_message))
+      setData(JSON.parse(serverMessage))
     }
 
-    connection.onclose = () => {
-      console.log('Connection closed');
-    }
+    connection.onclose = () => console.log('Connection closed');
   }, []);
 
   const formattedDate = data?.lastUpdate ? formatDate(new Date(data?.lastUpdate)) : 'Indisponível'
@@ -86,8 +65,9 @@ function App() {
   })
 
   return (
-    <>
+    <Fragment>
       <GlobalStyles />
+
       <Header />
 
       <Main>
@@ -97,8 +77,10 @@ function App() {
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={dataMock} {...COMMON_CHART_PROPS}>
               <CartesianGrid strokeDasharray="3 3" />
+
               <XAxis dataKey="name" />
               <YAxis />
+              
               <Tooltip />
               <Line type="monotone" dataKey="pv" stroke="#C20D2F" activeDot={{ r: 8 }} />
             </LineChart>
@@ -109,9 +91,12 @@ function App() {
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={perCity} {...COMMON_CHART_PROPS}>
               <CartesianGrid strokeDasharray="3 3" />
+
               <XAxis dataKey="name" />
               <YAxis />
+
               <Tooltip />
+
               <Bar dataKey="value" fill="#C20D2F" />
             </BarChart>
           </ResponsiveContainer>
@@ -137,7 +122,7 @@ function App() {
           </ResponsiveContainer>
         </ChartBox>
       </Main>
-    </>
+    </Fragment>
   )
 }
 
